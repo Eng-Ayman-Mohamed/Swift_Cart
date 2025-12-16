@@ -1,0 +1,52 @@
+# Dependencies
+/node_modules/
+
+# Build output
+/dist/
+/build/
+
+# Production
+/.pnp
+.pnp.js
+
+# Testing
+/coverage/
+
+# Local env files
+.env
+.env.development
+.env.local
+.env.production
+.env.test
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Optional caches
+/.parcel-cache
+/.cache
+.cache-loader
+.eslintcache
+.stylelintcache
+
+# Next.js specific
+.next/
+out/
+
+# Vite specific
+vite.config.ts.timestamp*
+vite.config.js.timestamp*
+
+# Storybook
+/storybook-static/
