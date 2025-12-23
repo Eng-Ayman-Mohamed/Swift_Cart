@@ -12,6 +12,12 @@
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --card-hover-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+  --header-bg-start: rgba(30, 41, 59, 0.9);
+  --header-bg-end: rgba(15, 23, 42, 0.9);
+  --footer-bg-start: rgba(15, 23, 42, 0.8);
+  --footer-bg-end: rgba(30, 41, 59, 0.8);
 }
 
 * {
@@ -47,7 +53,7 @@ body {
   margin: 40px auto;
 }
 
-.header-hero {
+.header-hero-class {
   background: linear-gradient(
     135deg,
     rgba(167, 139, 250, 0.1),
@@ -328,7 +334,7 @@ body {
   .product-img {
     height: 160px;
   }
-  .header-hero {
+  .header-hero-class {
     padding: 24px;
     gap: 16px;
   }

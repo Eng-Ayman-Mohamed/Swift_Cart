@@ -5,15 +5,23 @@ class APIFeatures {
   }
   //price=20
   filter() {
-    const queryObj = { ...this.queryString };
-    console.log(queryObj.sort);
-    const excludedQueries = ["sort", "limit", "page", "fields"];
-    excludedQueries.forEach((el) => {
-      delete queryObj[el];
-    });
-    this.query = this.query.find(queryObj);
+    const queryObject = { ...this.queryString };
+
+    ["sort", "limit", "page", "fields"].forEach(
+      (field) => delete queryObject[field]
+    );
+
+    let queryString = JSON.stringify(queryObject);
+
+    queryString = queryString.replace(
+      /\b(gte|gt|lte|lt)\b/g,
+      (match) => `$${match}`
+    );
+
+    this.query = this.query.find(JSON.parse(queryString));
     return this;
   }
+
   //sort=price
   sort() {
     if (this.queryString.sort) {

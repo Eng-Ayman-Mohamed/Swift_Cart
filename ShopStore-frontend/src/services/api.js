@@ -158,8 +158,26 @@ export async function ping() {
   return await request(`/health`, { method: "GET" });
 }
 
-export async function getProducts() {
-  return await request(`/products`, { method: "GET" });
+export async function getProducts(filters = {}) {
+  const params = new URLSearchParams();
+
+  // Add filtering parameters
+  if (filters.minPrice) params.append("price[gte]", filters.minPrice);
+  if (filters.maxPrice) params.append("price[lte]", filters.maxPrice);
+  if (filters.minRating) params.append("avgRating[gte]", filters.minRating);
+  if (filters.premiumOnly) params.append("premium", true);
+
+  // Add sorting
+  if (filters.sortBy) params.append("sort", filters.sortBy);
+
+  // Add pagination defaults
+  params.append("limit", "12");
+  params.append("page", "0");
+
+  const queryString = params.toString();
+  const url = `/products${queryString ? `?${queryString}` : ""}`;
+
+  return await request(url, { method: "GET" });
 }
 
 export async function getProduct(id) {

@@ -47,13 +47,55 @@ export default function ProductCard({
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: "flex-start",
           gap: 8,
         }}
       >
-        <div>
+        <div style={{ flex: 1 }}>
           <div className="product-title">{product?.title}</div>
           <div className="product-price">${product?.price}</div>
+
+          {/* Rating Display */}
+          {product?.avgRating && (
+            <div
+              style={{
+                marginTop: 8,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: "12px",
+                color: "var(--text-secondary)",
+              }}
+            >
+              <span>⭐</span>
+              <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>
+                {product.avgRating}
+              </span>
+              <span>({product.ratingQuantity})</span>
+            </div>
+          )}
+
+          {/* Premium Badge */}
+          {product?.premium && (
+            <div
+              style={{
+                marginTop: 8,
+                display: "inline-block",
+                padding: "4px 8px",
+                background:
+                  "linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))",
+                color: "var(--bg-dark)",
+                borderRadius: "12px",
+                fontSize: "10px",
+                fontWeight: "700",
+                textTransform: "uppercase",
+                letterSpacing: "0.3px",
+              }}
+            >
+              ⭐ Premium
+            </div>
+          )}
+
           {product?.description && (
             <div
               className="small muted"

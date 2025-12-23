@@ -9,8 +9,9 @@ export default function Home({ onAdd, onAddToWishlist, user }) {
 
   useEffect(() => {
     let mounted = true;
+    // Fetch only premium products for the home page
     api
-      .getProducts()
+      .getProducts({ premiumOnly: true, sortBy: "-avgRating" })
       .then((res) => {
         if (!mounted) return;
         if (res.ok && Array.isArray(res.data?.products))
@@ -24,7 +25,7 @@ export default function Home({ onAdd, onAddToWishlist, user }) {
   return (
     <div>
       <motion.div
-        className="header-hero"
+        className="header-hero-class"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -77,7 +78,7 @@ export default function Home({ onAdd, onAddToWishlist, user }) {
             alignItems: "center",
           }}
         >
-          <h3 style={{ margin: 0 }}>Popular</h3>
+          <h3 style={{ margin: 0 }}>Premium products</h3>
           <a
             href="/shop"
             style={{
@@ -96,7 +97,7 @@ export default function Home({ onAdd, onAddToWishlist, user }) {
                 <ProductCard key={`ph-${i}`} loading={true} />
               ))
             : products
-                .slice(0, 6)
+                .slice(0, 8)
                 .map((p) => (
                   <ProductCard
                     key={p._id}

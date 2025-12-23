@@ -119,10 +119,71 @@ export default function ProductDetails({ onAdd, onAddToWishlist }) {
             >
               ${product.price}
             </div>
+
+            {/* Rating Display */}
+            {product.avgRating && (
+              <div
+                style={{
+                  marginTop: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontSize: "16px",
+                  color: "var(--text-secondary)",
+                }}
+              >
+                <span>⭐</span>
+                <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>
+                  {product.avgRating}
+                </span>
+                <span>({product.ratingQuantity} reviews)</span>
+              </div>
+            )}
+
+            {/* Premium Badge */}
+            {product.premium && (
+              <div
+                style={{
+                  marginTop: 12,
+                  display: "inline-block",
+                  padding: "6px 16px",
+                  background:
+                    "linear-gradient(135deg, var(--accent-cyan), var(--accent-purple))",
+                  color: "var(--bg-dark)",
+                  borderRadius: "20px",
+                  fontSize: "12px",
+                  fontWeight: "700",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                ⭐ Premium Product
+              </div>
+            )}
+
             <p className="small" style={{ marginTop: 16 }}>
               {product.description ||
                 "This is a premium, high-quality product. It features excellent craftsmanship and attention to detail."}
             </p>
+
+            {/* Details Section */}
+            {product.details && (
+              <div style={{ marginTop: 20 }}>
+                <h3
+                  style={{
+                    color: "var(--text-primary)",
+                    fontSize: "16px",
+                    fontWeight: "700",
+                    marginBottom: "8px",
+                  }}
+                >
+                  Product Details
+                </h3>
+                <p className="small" style={{ color: "var(--text-secondary)" }}>
+                  {product.details}
+                </p>
+              </div>
+            )}
 
             <div style={{ marginTop: 20, display: "flex", gap: 12 }}>
               <button className="btn" onClick={() => onAdd(product)}>
