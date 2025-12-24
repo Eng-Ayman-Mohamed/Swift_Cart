@@ -82,6 +82,60 @@ export default function AddProductForm({
           )}
         </div>
 
+        <div className="admin-form-group">
+          <label htmlFor="details">Additional Details</label>
+          <textarea
+            id="details"
+            name="details"
+            value={formData.details}
+            onChange={handleChange}
+            placeholder="e.g., Available in sizes S, M, L, XL. Material: 100% cotton. Care instructions included."
+            rows="3"
+            disabled={loading}
+          />
+        </div>
+
+        <div className="admin-form-group">
+          <label htmlFor="avgRating">Average Rating (1-5)</label>
+          <input
+            type="number"
+            id="avgRating"
+            name="avgRating"
+            value={formData.avgRating}
+            onChange={handleChange}
+            placeholder="e.g., 4.5"
+            step="0.1"
+            min="1"
+            max="5"
+            disabled={loading}
+          />
+        </div>
+
+        <div className="admin-form-group">
+          <label style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <input
+              type="checkbox"
+              name="premium"
+              checked={formData.premium || false}
+              onChange={handleChange}
+              disabled={loading}
+              style={{
+                width: "16px",
+                height: "16px",
+                accentColor: "var(--accent-cyan)",
+              }}
+            />
+            Mark as Premium Product
+          </label>
+          <p
+            className="small muted"
+            style={{ marginTop: "4px", marginLeft: "24px" }}
+          >
+            Premium products are highlighted with special styling and may appear
+            first in listings.
+          </p>
+        </div>
+
         <div className="admin-form-buttons">
           <button type="submit" className="btn primary" disabled={loading}>
             {loading ? (

@@ -31,6 +31,9 @@ export default function AdminDashboard({ user, showToast }) {
     price: "",
     description: "",
     img: "",
+    details: "",
+    avgRating: "",
+    premium: false,
   });
 
   // Products list
@@ -185,8 +188,11 @@ export default function AdminDashboard({ user, showToast }) {
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -212,16 +218,38 @@ export default function AdminDashboard({ user, showToast }) {
 
     setLoading(true);
     try {
-      const res = await api.createProduct({
+      // Prepare product data, only include optional fields if they have values
+      const productData = {
         title: formData.title.trim(),
         price: parseFloat(formData.price),
         description: formData.description.trim(),
         img: formData.img.trim(),
-      });
+      };
+
+      // Add optional fields only if they have values
+      if (formData.details.trim()) {
+        productData.details = formData.details.trim();
+      }
+      if (formData.avgRating && !isNaN(parseFloat(formData.avgRating))) {
+        productData.avgRating = parseFloat(formData.avgRating);
+      }
+      if (formData.premium) {
+        productData.premium = formData.premium;
+      }
+
+      const res = await api.createProduct(productData);
 
       if (res.ok) {
         showToast(`Product "${formData.title}" added successfully`, "success");
-        setFormData({ title: "", price: "", description: "", img: "" });
+        setFormData({
+          title: "",
+          price: "",
+          description: "",
+          img: "",
+          details: "",
+          avgRating: "",
+          premium: false,
+        });
         // Refresh products list if on products tab
         if (activeTab === "products") {
           setCurrentPage(1);
@@ -260,7 +288,15 @@ export default function AdminDashboard({ user, showToast }) {
   };
 
   const handleClearForm = () => {
-    setFormData({ title: "", price: "", description: "", img: "" });
+    setFormData({
+      title: "",
+      price: "",
+      description: "",
+      img: "",
+      details: "",
+      avgRating: "",
+      premium: false,
+    });
   };
 
   const renderTabContent = () => {
