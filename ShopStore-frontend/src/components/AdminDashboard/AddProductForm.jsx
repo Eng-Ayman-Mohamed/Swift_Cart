@@ -112,7 +112,7 @@ export default function AddProductForm({
           <button
             type="button"
             onClick={onClearForm}
-            className="btn"
+            className="btn-cancel"
             disabled={loading}
           >
             Clear
