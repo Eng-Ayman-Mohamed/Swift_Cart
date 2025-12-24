@@ -2,22 +2,18 @@ const { connectDB } = require("../src/config/db");
 require("dotenv").config();
 const app = require("../src/app");
 
-// Ensure DB is connected once per serverless container
-let isConnected = false;
-
-const ensureConnected = async () => {
-  if (!isConnected) {
-    try {
-      await connectDB();
-      isConnected = true;
-      console.log("Database connected on cold start ✅");
-    } catch (err) {
-      console.error("Error connecting to DB (serverless):", err);
-    }
+// Middleware to prevent "Buffering" timeouts
+app.use(async (req, res, next) => {
+  try {
+    await connectDB(); // This now correctly awaits the singleton connection
+    next();
+  } catch (err) {
+    console.error("Critical DB Error:", err);
+    res.status(500).json({
+      error: "Database connection failed",
+      details: err.message,
+    });
   }
-};
-
-// Immediately try to connect
-ensureConnected();
+});
 
 module.exports = app;

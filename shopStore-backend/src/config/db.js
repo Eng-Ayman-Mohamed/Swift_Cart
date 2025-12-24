@@ -22,7 +22,7 @@ async function connectDB() {
     const opts = {
       serverSelectionTimeoutMS: 5000, // Tell Mongoose to fail after 5s, not 30s
       socketTimeoutMS: 45000,
-      maxPoolSize: 10,
+      maxPoolSize: 1,
       bufferCommands: false, // Don't queue commands if not connected
     };
 
