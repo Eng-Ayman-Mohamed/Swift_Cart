@@ -7,14 +7,6 @@ const Pagination = ({
   hasNextPage,
   hasPrevPage,
 }) => {
-  // Debug logging to understand what's happening
-  console.log("Pagination props:", {
-    currentPage,
-    totalPages,
-    hasNextPage,
-    hasPrevPage,
-  });
-
   // Always render pagination for consistency, but disable if only one page
   const isDisabled = totalPages <= 1;
 
