@@ -14,6 +14,7 @@ import Orders from "./pages/Orders";
 import Toast from "./components/Toast";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import FloatingBackground from "./components/FloatingBackground";
 import { useAuth, useCart, useWishlist } from "./hooks/useStorage";
 import { useToast } from "./hooks/useToast";
 import {
@@ -65,6 +66,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <FloatingBackground />
       <NavBar
         user={user}
         onSignOut={handleSignOut}

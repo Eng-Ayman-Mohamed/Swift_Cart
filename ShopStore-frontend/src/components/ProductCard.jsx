@@ -10,6 +10,7 @@ export default function ProductCard({
 }) {
   const navigate = useNavigate();
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   if (loading) {
     return (
@@ -32,8 +33,18 @@ export default function ProductCard({
   return (
     <motion.div
       className="card"
-      whileHover={{ scale: 1.02 }}
+      whileHover={{
+        scale: 1.02,
+        rotateY: 5,
+        z: 50,
+      }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
       transition={{ type: "spring", stiffness: 300 }}
+      style={{
+        transformStyle: "preserve-3d",
+        perspective: "1000px",
+      }}
     >
       {!imgLoaded && <div className="placeholder placeholder-img" />}
       <img
