@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 
 exports.register = async (req, res) => {
   try {
-    const userObj = await User.create(req.body, { select: "-password -__v" });
+    const userObj = await User.create(req.body);
     res.status(200).json({
       status: "success",
       user: userObj,
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body;
     //check if the user exist
     const userData = await User.findOne({ email });
     if (!userData) {
@@ -26,19 +26,9 @@ exports.login = async (req, res) => {
         message: "User not found",
       });
     }
-    //check if the password is correct
-    if (userData.password !== password) {
-      return res.status(404).json({
-        status: "fail",
-        message: "Incorrect Password",
-      });
-    }
-    //delete password from response
-    const userObj = userData.toObject();
-    delete userObj.password;
     res.status(200).json({
       status: "success",
-      user: userObj,
+      user: userData,
     });
   } catch (err) {
     res.status(401).json({
@@ -52,7 +42,7 @@ exports.login = async (req, res) => {
 exports.userData = async (req, res) => {
   try {
     const userId = req.params.id;
-    const userObj = await User.findById(userId, { password: false });
+    const userObj = await User.findById(userId);
     res.status(200).json({
       status: "success",
       user: userObj,
@@ -73,7 +63,7 @@ exports.updateUser = async (req, res) => {
     const userData = await User.findByIdAndUpdate(userId, newUserData.profile, {
       new: true,
       runValidators: true,
-      select: "-__v -password",
+      select: "-__v ",
     });
 
     res.status(200).json(userData);
