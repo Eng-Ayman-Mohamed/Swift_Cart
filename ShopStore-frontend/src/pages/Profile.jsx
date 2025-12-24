@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Profile.css";
-import ProfileHeader from "./components/ProfileHeader";
-import InfoSection from "./components/InfoSection";
-import InfoItem from "./components/InfoItem";
-import QuickActions from "./components/QuickActions";
+import "../components/profile/Profile.css";
+import ProfileHeader from "../components/profile/ProfileHeader";
+import InfoSection from "../components/profile/InfoSection";
+import InfoItem from "../components/profile/InfoItem";
+import QuickActions from "../components/profile/QuickActions";
 
 export default function Profile({ user }) {
   const navigate = useNavigate();

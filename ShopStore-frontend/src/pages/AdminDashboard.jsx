@@ -11,7 +11,7 @@ import AddProductForm from "../components/AdminDashboard/AddProductForm";
 import ProductsListSection from "../components/AdminDashboard/ProductsListSection";
 
 // Import styles
-import "./AdminDashboard.css";
+import "../components/AdminDashboard/AdminDashboard.css";
 
 export default function AdminDashboard({ user, showToast }) {
   const navigate = useNavigate();
