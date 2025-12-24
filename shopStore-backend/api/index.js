@@ -1,4 +1,5 @@
 const { connectDB } = require("../src/config/db");
+require("dotenv").config();
 const app = require("../src/app");
 
 // Ensure DB is connected once per serverless container
