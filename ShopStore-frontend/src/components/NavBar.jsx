@@ -56,14 +56,22 @@ export default function NavBar({ user, onSignOut, cartCount, wishlistCount }) {
           whileHover={{
             rotate: 360,
             scale: 1.1,
-            boxShadow: "0 12px 30px rgba(0, 215, 255, 0.4)",
           }}
-          transition={{ duration: 0.6 }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
+            duration: 0.6,
+          }}
         >
-          CS
+          <img
+            src="/favicon.ico"
+            alt="SwiftCart Logo"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
         </motion.div>
         <div>
-          <div style={{ fontSize: 16, fontWeight: 800 }}>Colorful Shop</div>
+          <div style={{ fontSize: 16, fontWeight: 800 }}>Swift Cart</div>
           <div style={{ fontSize: 12, color: "var(--muted)" }}>
             Bright gear, brighter you
           </div>
@@ -244,7 +252,7 @@ export default function NavBar({ user, onSignOut, cartCount, wishlistCount }) {
                 color: "var(--text-primary)",
               }}
             >
-              Colorful Shop
+              Swift Cart
             </div>
             <div style={{ fontSize: 12, color: "var(--muted)" }}>
               Mobile Menu

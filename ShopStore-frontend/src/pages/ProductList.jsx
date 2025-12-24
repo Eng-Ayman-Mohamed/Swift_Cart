@@ -107,9 +107,6 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
   return (
     <div>
       <h2 style={{ marginTop: 8 }}>All Products</h2>
-      <p className="small">
-        A colorful selection of items with animated interactions.
-      </p>
 
       <FilterPanel
         onFilterChange={handleFilterChange}

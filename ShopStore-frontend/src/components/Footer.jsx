@@ -60,7 +60,7 @@ export default function Footer() {
                 marginBottom: 8,
               }}
             >
-              Colorful Shop™
+              Swift Cart™
             </div>
             <div
               style={{
@@ -68,7 +68,7 @@ export default function Footer() {
                 color: "var(--text-secondary)",
               }}
             >
-              © 2025 Colorful Shop
+              © 2025 Swift Cart
             </div>
           </div>
 
@@ -223,7 +223,7 @@ export default function Footer() {
               backgroundClip: "text",
             }}
           >
-            Colorful Shop™
+            Swift Cart™
           </div>
           <div className="small" style={{ lineHeight: 1.6 }}>
             Premium apparel and accessories for those who dare to stand out.
@@ -416,7 +416,7 @@ export default function Footer() {
           gap: 16,
         }}
       >
-        <div className="small">© 2025 Colorful Shop. All rights reserved.</div>
+        <div className="small">© 2025 Swift Cart. All rights reserved.</div>
         <div style={{ display: "flex", gap: 16, fontSize: 12 }}>
           <a
             href="#"
