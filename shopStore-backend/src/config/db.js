@@ -13,7 +13,7 @@ async function connectDB() {
   }
 
   // Ensure DATABASE env variable exists
-  if (!process.env.DATABASE) {
+  if (!process.env.MONGODB_URI) {
     throw new Error("DATABASE environment variable is missing");
   }
 
@@ -27,7 +27,7 @@ async function connectDB() {
     };
 
     cached.promise = mongoose
-      .connect(process.env.DATABASE, opts)
+      .connect(process.env.MONGODB_URI, opts)
       .then((mongoose) => {
         return mongoose;
       });
