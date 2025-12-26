@@ -227,6 +227,52 @@ exports.removeFromWishlist = async (req, res) => {
   }
 };
 
+exports.completePayment = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { amount } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid payment amount",
+      });
+    }
+
+    const user = await User.findById(userId).select("cash");
+
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
+    if (amount > user.cash) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Insufficient balance",
+      });
+    }
+
+    user.cash -= amount;
+    await user.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Payment completed successfully",
+      data: {
+        cash: user.cash,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
 exports.usersAnalysis = async (req, res) => {
   try {
     const analysis = await User.aggregate([

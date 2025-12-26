@@ -13,6 +13,7 @@ const {
   deleteUser,
   getUsers,
   usersAnalysis,
+  completePayment,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -30,5 +31,10 @@ router.route("/wishlist/:id").get(userWishlist).post(addToWishlist);
 router.route("/wishlist/:id/:productId").delete(removeFromWishlist);
 
 //User Data
-router.route("/me/:id").get(userData).put(updateUser).delete(deleteUser);
+router
+  .route("/me/:id")
+  .get(userData)
+  .put(updateUser)
+  .delete(deleteUser)
+  .post(completePayment);
 module.exports = router;
