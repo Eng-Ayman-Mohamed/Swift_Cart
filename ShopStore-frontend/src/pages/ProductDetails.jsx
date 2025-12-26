@@ -131,19 +131,109 @@ export default function ProductDetails({ onAdd, onAddToWishlist }) {
               >
                 {product.title}
               </h2>
-              <div
-                style={{
-                  fontWeight: 800,
-                  background:
-                    "linear-gradient(135deg, var(--accent-cyan), var(--accent-pink))",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  fontSize: 24,
-                  marginTop: 8,
-                }}
-              >
-                ${product.price}
+              {/* Price Display with Discount */}
+              <div style={{ marginTop: 8 }}>
+                {product.discount && product.discount > 0 ? (
+                  <div className="discounted-price-container">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      {/* Discount Badge */}
+                      <motion.div
+                        className="discount-badge"
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: 0.2,
+                          type: "spring",
+                          stiffness: 200,
+                        }}
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #ef4444, #dc2626)",
+                          color: "white",
+                          padding: "4px 8px",
+                          borderRadius: "6px",
+                          fontSize: "12px",
+                          fontWeight: "700",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.5px",
+                          boxShadow: "0 2px 8px rgba(239, 68, 68, 0.3)",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                      >
+                        🔥 -{product.discount}%
+                      </motion.div>
+
+                      {/* Discounted Price */}
+                      <div
+                        className="discounted-price"
+                        style={{
+                          fontWeight: 800,
+                          background:
+                            "linear-gradient(135deg, var(--accent-cyan), var(--accent-pink))",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                          fontSize: 24,
+                        }}
+                      >
+                        $
+                        {(product.price * (1 - product.discount / 100)).toFixed(
+                          2
+                        )}
+                      </div>
+
+                      {/* Original Price */}
+                      <div
+                        style={{
+                          fontSize: 18,
+                          fontWeight: 600,
+                          color: "var(--text-muted)",
+                          textDecoration: "line-through",
+                          opacity: 0.7,
+                        }}
+                      >
+                        ${product.price.toFixed(2)}
+                      </div>
+                    </div>
+
+                    {/* Savings Amount */}
+                    <div
+                      style={{
+                        marginTop: 4,
+                        fontSize: "14px",
+                        color: "var(--accent-cyan)",
+                        fontWeight: 600,
+                      }}
+                    >
+                      You save $
+                      {(product.price * (product.discount / 100)).toFixed(2)}
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      fontWeight: 800,
+                      background:
+                        "linear-gradient(135deg, var(--accent-cyan), var(--accent-pink))",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                      fontSize: 24,
+                    }}
+                  >
+                    ${product.price}
+                  </div>
+                )}
               </div>
 
               {/* Rating Display */}

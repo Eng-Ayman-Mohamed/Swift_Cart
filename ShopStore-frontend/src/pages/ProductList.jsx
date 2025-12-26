@@ -132,7 +132,8 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
 
     setFilters(newFilters);
     setCurrentPage(1); // Reset to first page when filters change
-    // Let the useEffect handle the API call to avoid double-fetching
+    // Fetch products with new filters
+    fetchProducts({ ...newFilters, page: 1 });
   };
 
   const handleClearFilters = () => {
@@ -141,7 +142,8 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
 
     setFilters({});
     setCurrentPage(1); // Reset to first page when clearing filters
-    // Let the useEffect handle the API call to avoid double-fetching
+    // Fetch products with cleared filters
+    fetchProducts({ page: 1 });
   };
 
   const handlePageChange = (newPage) => {
