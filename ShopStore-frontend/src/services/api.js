@@ -281,3 +281,11 @@ export async function completePayment(amount) {
     body: { amount },
   });
 }
+
+export async function getUserPurchases() {
+  const userId = localStorage.getItem("cs_user_id");
+  if (!userId) return { ok: false, error: "Not logged in" };
+  return await request(`/users/me/${encodeURIComponent(userId)}/purchases`, {
+    method: "GET",
+  });
+}

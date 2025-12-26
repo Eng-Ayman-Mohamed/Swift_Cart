@@ -14,6 +14,7 @@ const {
   getUsers,
   usersAnalysis,
   completePayment,
+  getUserPurchases,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -37,4 +38,6 @@ router
   .put(updateUser)
   .delete(deleteUser)
   .post(completePayment);
+router.get("/me/:id/purchases", getUserPurchases);
+
 module.exports = router;

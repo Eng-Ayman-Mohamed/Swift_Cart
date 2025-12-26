@@ -279,6 +279,22 @@ exports.completePayment = async (req, res) => {
   }
 };
 
+exports.getUserPurchases = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).populate("purchases.products");
+    res.status(200).json({
+      message: "success",
+      purchases: user.purchases,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
 exports.usersAnalysis = async (req, res) => {
   try {
     const analysis = await User.aggregate([
