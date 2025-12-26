@@ -272,3 +272,12 @@ export async function deleteUser(userId) {
 export async function getUsersAnalysis() {
   return await request(`/users/users-analysis`, { method: "GET" });
 }
+
+export async function completePayment(amount) {
+  const userId = localStorage.getItem("cs_user_id");
+  if (!userId) return { ok: false, error: "Not logged in" };
+  return await request(`/users/me/${encodeURIComponent(userId)}`, {
+    method: "POST",
+    body: { amount },
+  });
+}

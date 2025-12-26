@@ -65,6 +65,15 @@ export default function App() {
     navigate("/profile");
   };
 
+  const handlePaymentSuccess = (updatedUser) => {
+    // Use the proper setAuthUser function which handles localStorage and events correctly
+    setAuthUser(updatedUser);
+
+    setCart([]);
+    showToast("Payment completed successfully!", "success");
+    navigate("/orders");
+  };
+
   return (
     <div className="app-shell">
       <FloatingBackground />
@@ -140,7 +149,14 @@ export default function App() {
               />
               <Route
                 path="/cart"
-                element={<Cart cart={cart} onRemove={removeFromCart} />}
+                element={
+                  <Cart
+                    cart={cart}
+                    onRemove={removeFromCart}
+                    user={user}
+                    onPaymentSuccess={handlePaymentSuccess}
+                  />
+                }
               />
               <Route path="/orders" element={<Orders />} />
               <Route

@@ -239,7 +239,7 @@ exports.completePayment = async (req, res) => {
       });
     }
 
-    const user = await User.findById(userId).select("cash");
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({
@@ -256,13 +256,19 @@ exports.completePayment = async (req, res) => {
     }
 
     user.cash -= amount;
+    user.purchases.push({
+      products: user.cart,
+      total: amount,
+    });
+
+    user.cart = [];
     await user.save();
 
     res.status(200).json({
       status: "success",
       message: "Payment completed successfully",
       data: {
-        cash: user.cash,
+        user,
       },
     });
   } catch (err) {

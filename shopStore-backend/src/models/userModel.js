@@ -41,6 +41,22 @@ const userSchema = mongoose.Schema({
       ref: "Product",
     },
   ],
+  purchases: [
+    {
+      products: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+      ],
+      total: Number,
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+
   wishlist: [
     {
       type: mongoose.Schema.Types.ObjectId,
