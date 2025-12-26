@@ -32,21 +32,57 @@ export default function ProductCard({
 
   return (
     <motion.div
-      className="card"
+      className={`card ${product?.discount > 0 ? "has-discount" : ""}`}
       whileHover={{
-        scale: 1.02,
-        rotateY: 5,
-        z: 50,
+        scale: 1.005,
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      transition={{ type: "spring", stiffness: 300 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
       style={{
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
+        position: "relative",
+        overflow: "visible",
       }}
     >
       {!imgLoaded && <div className="placeholder placeholder-img" />}
+
+      {/* Discount Badge - More Prominent */}
+      {product?.discount > 0 && (
+        <motion.div
+          className="discount-badge"
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 15,
+            delay: 0.1,
+          }}
+          style={{
+            position: "absolute",
+            top: "12px",
+            left: "12px",
+            background: "linear-gradient(135deg, #ef4444, #dc2626)",
+            color: "white",
+            padding: "8px 12px",
+            borderRadius: "16px",
+            fontSize: "12px",
+            fontWeight: "800",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+            boxShadow: "0 4px 16px rgba(239, 68, 68, 0.4)",
+            zIndex: 3,
+            border: "2px solid rgba(255, 255, 255, 0.2)",
+            textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
+            animation: "discountPulse 2s infinite",
+          }}
+        >
+          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+            🔥 -{product.discount}%
+          </span>
+        </motion.div>
+      )}
+
       <img
         src={product?.img}
         alt=""

@@ -31,10 +31,10 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
 
     setFilters(initialFilters);
 
-    // Fetch products immediately with the current filters
+    // Fetch products immediately with the current filters and current page
     const filtersWithPage = { ...initialFilters, page: currentPage };
     fetchProducts(filtersWithPage);
-  }, [searchParams]); // Only depend on searchParams, not filters
+  }, [searchParams, currentPage]); // Added currentPage dependency
 
   const fetchProducts = useCallback(async (currentFilters = {}) => {
     setLoading(true);
@@ -60,24 +60,42 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
           // Fallback: estimate pagination if backend doesn't provide it
           const productsPerPage = currentFilters.limit || 12;
           const receivedProducts = res.data.products.length;
+          const currentPageNum = currentFilters.page || 1;
 
-          // If we got a full page of products, assume there might be more pages
-          // If we got fewer products, this is likely the last page
-          const totalProducts =
-            receivedProducts === productsPerPage
-              ? (currentFilters.page || 1) * productsPerPage + 1 // Estimate more products
-              : receivedProducts;
-          const totalPages = Math.max(
-            1,
-            Math.ceil(totalProducts / productsPerPage)
-          );
+          // Simple logic: if we got a full page, assume there might be more
+          // if we got less, this is likely the last page or an empty category
+          let totalPages = currentPageNum; // Start with current page as minimum
+
+          if (receivedProducts === 0) {
+            // No products - likely empty category or past last page
+            totalPages = 1;
+          } else if (receivedProducts < productsPerPage) {
+            // Partial page - likely last page
+            totalPages = currentPageNum;
+          } else {
+            // Full page - assume there might be more pages
+            totalPages = currentPageNum + 1;
+          }
+
+          console.log("Fallback pagination:", {
+            receivedProducts,
+            productsPerPage,
+            currentPage: currentPageNum,
+            totalPages,
+            hasNext:
+              receivedProducts === productsPerPage &&
+              totalPages > currentPageNum,
+            hasPrev: currentPageNum > 1,
+          });
 
           setPagination({
-            totalProducts,
+            totalProducts: receivedProducts, // This is an estimate
             totalPages,
             productsPerPage,
-            hasNextPage: receivedProducts === productsPerPage && totalPages > 1,
-            hasPrevPage: (currentFilters.page || 1) > 1,
+            hasNextPage:
+              receivedProducts === productsPerPage &&
+              totalPages > currentPageNum,
+            hasPrevPage: currentPageNum > 1,
           });
         }
       } else {
