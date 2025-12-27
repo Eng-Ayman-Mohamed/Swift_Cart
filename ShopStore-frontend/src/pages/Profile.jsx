@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../components/profile/Profile.css";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import InfoSection from "../components/profile/InfoSection";
 import InfoItem from "../components/profile/InfoItem";
 import QuickActions from "../components/profile/QuickActions";
+import { deleteUser } from "../services/api";
+import { useAuth } from "../hooks/useStorage";
 
 export default function Profile({ user }) {
   const navigate = useNavigate();
+  const { setAuthUser } = useAuth();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!user) {
     return (
@@ -17,6 +22,28 @@ export default function Profile({ user }) {
       </div>
     );
   }
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    try {
+      const result = await deleteUser(user._id);
+      if (result.ok) {
+        // Clear localStorage and reload the page
+        localStorage.removeItem("cs_user_id");
+        localStorage.removeItem("cs_user");
+        setAuthUser(null);
+        window.location.reload();
+      } else {
+        alert("Failed to delete account: " + (result.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Delete account error:", error);
+      alert("Failed to delete account. Please try again.");
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
+    }
+  };
 
   return (
     <div className="card form profile-container">
@@ -77,9 +104,53 @@ export default function Profile({ user }) {
           </div>
         )}
       </InfoSection>
-
       {/* Quick Actions */}
       <QuickActions navigate={navigate} />
+      {/* Danger Zone Section */}
+      <InfoSection title="Danger Zone" icon="⚠️" variant="red">
+        <div className="danger-zone">
+          <h4>Delete Account</h4>
+          <p className="small">
+            Once you delete your account, there is no going back. Please be
+            certain.
+          </p>
+          {!showDeleteConfirm ? (
+            <button
+              className="btn btn-danger"
+              onClick={() => setShowDeleteConfirm(true)}
+              disabled={isDeleting}
+            >
+              Delete Account
+            </button>
+          ) : (
+            <div className="delete-confirmation">
+              <p>
+                <strong>Are you absolutely sure?</strong>
+              </p>
+              <p className="small">
+                This action cannot be undone. This will permanently delete your
+                account and remove all your data from our servers.
+              </p>
+              <div className="delete-actions">
+                <button
+                  className="btn btn-danger"
+                  onClick={handleDeleteAccount}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? "Deleting..." : "Yes, delete my account"}
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  disabled={isDeleting}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </InfoSection>
     </div>
   );
 }

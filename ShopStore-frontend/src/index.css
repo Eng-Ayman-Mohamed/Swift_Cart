@@ -112,11 +112,6 @@ body {
   left: 100%;
 }
 
-.card:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--card-hover-shadow);
-}
-
 /* Button Component - Global utility */
 .btn {
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
