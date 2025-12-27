@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import FilterPanel from "../components/FilterPanel";
+import FilterPanel from "../components/FilterPanelFixed";
 import Pagination from "../components/Pagination";
 import * as api from "../services/api";
 
@@ -118,25 +118,34 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
 
   // Removed the second useEffect - combined effect above handles all fetching
 
-  const handleFilterChange = (newFilters) => {
-    // Update URL to sync with category changes
-    const newSearchParams = new URLSearchParams(searchParams);
+  const handleFilterChange = useCallback(
+    (newFilters) => {
+      // Update URL to sync with category changes
+      setSearchParams(
+        (currentParams) => {
+          const newSearchParams = new URLSearchParams(currentParams);
 
-    if (newFilters.category) {
-      newSearchParams.set("category", newFilters.category);
-    } else {
-      newSearchParams.delete("category");
-    }
+          if (newFilters.category) {
+            newSearchParams.set("category", newFilters.category);
+          } else {
+            newSearchParams.delete("category");
+          }
 
-    setSearchParams(newSearchParams, { replace: true });
+          return newSearchParams;
+        },
+        { replace: true }
+      );
 
-    setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
-    // Fetch products with new filters
-    fetchProducts({ ...newFilters, page: 1 });
-  };
+      setFilters(newFilters);
+      setCurrentPage(1); // Reset to first page when filters change
+      // Fetch products with new filters
+      fetchProducts({ ...newFilters, page: 1 });
+    },
+    // Only depend on fetchProducts to prevent recreation
+    [fetchProducts]
+  );
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     // Clear URL parameters
     setSearchParams({}, { replace: true });
 
@@ -144,7 +153,7 @@ export default function ProductList({ onAdd, onAddToWishlist }) {
     setCurrentPage(1); // Reset to first page when clearing filters
     // Fetch products with cleared filters
     fetchProducts({ page: 1 });
-  };
+  }, [fetchProducts]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);

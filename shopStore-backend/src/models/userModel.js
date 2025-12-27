@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: ["👨", "👩", "🧑", "🎨", "⭐", "🚀", "💎", "🌟"],
     },
-    cash: { type: Number, default: 1000 },
+    cash: { type: Number, default: 10000 },
     cart: [
       {
         type: mongoose.Schema.Types.ObjectId,
